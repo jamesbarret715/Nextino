@@ -1,6 +1,7 @@
 #ifndef NEXTINO_H
 #define NEXTINO_H
 
+#include <ArduinoSTL.h>
 #include <string>
 
 namespace Nextino
@@ -16,15 +17,7 @@ namespace Nextino
         {
         }
 
-        void write(std::string msg)
-        {
-#ifdef NEXTINO_DEBUG
-            Serial.println(msg.c_str());
-#endif
-
-            _stream->print(msg.c_str());
-            _stream->print("\xff\xff\xff");
-        }
+        void write(std::string msg);
     };
 
     class Element
@@ -34,33 +27,12 @@ namespace Nextino
         std::string _name;
 
     public:
-        Element(Display &display, std::string objname) : _display(display), _name(objname)
-        {
-        }
+        Element(Display &display, std::string objname);
+        Element(Display &display, uint8_t pageId, uint8_t elementId);
 
-        Element(Display &display, uint8_t pageId, uint8_t elementId) : _display(display)
-        {
-            char pageNum[3], elementNum[3];
-            itoa(pageId, pageNum, 10);
-            itoa(elementId, elementNum, 10);
+        void setProperty(std::string property, std::string value);
 
-            _name = std::string("p[") + pageNum + "].b[" + elementNum + "]";
-        }
-
-        void setProperty(std::string property, std::string value)
-        {
-            std::string msg = _name + "." + property + "=\"" + value + "\"";
-            _display.write(msg);
-        }
-
-        void setProperty(std::string property, int value)
-        {
-            char buf[10];
-            itoa(value, buf, 10);
-
-            std::string msg = _name + "." + property + "=" + buf;
-            _display.write(msg);
-        }
+        void setProperty(std::string property, int value);
     };
 
     class Text : public Element
@@ -68,10 +40,7 @@ namespace Nextino
     public:
         using Element::Element;
 
-        void setText(std::string text)
-        {
-            setProperty("txt", text);
-        }
+        void setText(std::string text);
     };
 
     class Number : public Element
@@ -79,10 +48,7 @@ namespace Nextino
     public:
         using Element::Element;
 
-        void setValue(int value)
-        {
-            setProperty("val", value);
-        }
+        void setValue(int value);
     };
 };
 
