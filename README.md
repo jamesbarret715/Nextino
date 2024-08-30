@@ -6,7 +6,7 @@ You can install the library using the Arduino IDE.
 
 1. [Download this library.](https://github.com/jamesbarret715/Nextino/archive/refs/heads/master.zip)
 1. In the Arduino IDE, navigate to Sketch > Include Library > Add .zip Library...
-1. Select the downloaded library and you're ready to start using Nextino
+1. Select the downloaded library and you're ready to start using Nextino.
 
 # Usage
 
@@ -41,13 +41,13 @@ void loop()
 You can also define individual elements to be accessed more easily.
 
 ```ino
-Nextion::Display nextion(displaySerial);
+Nextino::Display nextion(displaySerial);
 
 // Specify the element by its objname
-Nextion::Element elapsedMillis(nextion, "t0");
+Nextino::Element elapsedMillis(nextion, "t0");
 
 // or by its page number and id
-Nextion::Element headingText(nextion, 0, 1);
+Nextino::Element headingText(nextion, 0, 1);
 
 void setup()
 {
@@ -65,7 +65,7 @@ void loop()
 Many element types have their own class with some useful functions.
 
 ```ino
-Nextion::Text subheadingText(nextion, "t1");
+Nextino::Text subheadingText(nextion, "t1");
 
 void setup() 
 {

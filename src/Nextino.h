@@ -3,10 +3,7 @@
 
 #include <string>
 
-#include <Arduino.h>
-#include <SoftwareSerial.h>
-
-namespace Nextion
+namespace Nextino
 {
     class Display
     {
@@ -21,7 +18,7 @@ namespace Nextion
 
         void write(std::string msg)
         {
-#ifdef NEXTION_DEBUG
+#ifdef NEXTINO_DEBUG
             Serial.println(msg.c_str());
 #endif
 
