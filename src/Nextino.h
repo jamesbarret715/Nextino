@@ -2,6 +2,8 @@
 #define NEXTINO_H
 
 #include <ArduinoSTL.h>
+#include <iomanip>
+#include <sstream>
 #include <string>
 
 namespace Nextino
@@ -31,8 +33,17 @@ namespace Nextino
         Element(Display &display, uint8_t pageId, uint8_t elementId);
 
         void setAttribute(std::string attribute, std::string value, bool quote = true);
-        void setAttribute(std::string attribute, int32_t value);
-        void setAttribute(std::string attribute, uint32_t value);
+
+        template <typename T>
+        void setAttribute(std::string attribute, T value, int precision = 0)
+        {
+            std::stringstream msg;
+            if (precision > 0)
+                msg << std::setprecision(precision);
+            msg << value;
+
+            setAttribute(attribute, msg.str(), false);
+        }
 
         void setColor(std::string attribute, uint8_t r, uint8_t g, uint8_t b);
         void setColor(std::string attribute, uint32_t color);

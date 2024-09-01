@@ -1,6 +1,4 @@
 #include <Nextino.h>
-#include <sstream>
-#include <iomanip>
 
 using namespace Nextino;
 
@@ -47,30 +45,14 @@ void Element::setAttribute(std::string attribute, std::string value, bool quote)
     _display.write(msg);
 }
 
-void Element::setAttribute(std::string attribute, int32_t value)
-{
-    std::stringstream msg;
-    msg << _name << "." << attribute << "=" << value;
-
-    _display.write(msg.str());
-}
-
-void Element::setAttribute(std::string attribute, uint32_t value)
-{
-    std::stringstream msg;
-    msg << _name << "." << attribute << "=" << value;
-
-    _display.write(msg.str());
-}
-
 void Element::setColor(std::string attribute, uint8_t r, uint8_t g, uint8_t b)
 {
-    setAttribute(attribute, rgb888_to_rgb565(r, g, b));
+    setAttribute(attribute, (uint32_t)rgb888_to_rgb565(r, g, b));
 }
 
 void Nextino::Element::setColor(std::string attribute, uint32_t color)
 {
-    setAttribute(attribute, rgb888_to_rgb565(((color >> 16) & 0xFF), ((color >> 8) & 0xFF), (color & 0xFF)));
+    setAttribute(attribute, (uint32_t)rgb888_to_rgb565(((color >> 16) & 0xFF), ((color >> 8) & 0xFF), (color & 0xFF)));
 }
 
 void Element::setForegroundColor(uint8_t r, uint8_t g, uint8_t b)
