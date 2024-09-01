@@ -22,15 +22,15 @@ namespace Nextino
         void write(std::string msg);
     };
 
-    class Element
+    class Component
     {
     private:
         Display &_display;
         std::string _name;
 
     public:
-        Element(Display &display, std::string objname);
-        Element(Display &display, uint8_t pageId, uint8_t elementId);
+        Component(Display &display, std::string objname);
+        Component(Display &display, uint8_t pageId, uint8_t elementId);
 
         void setAttribute(std::string attribute, std::string value, bool quote = true);
 
@@ -55,31 +55,31 @@ namespace Nextino
         void setBackgroundColor(uint32_t color);
     };
 
-    class Text : public Element
+    class Text : public Component
     {
     public:
-        using Element::Element;
+        using Component::Component;
 
         void setText(std::string text);
     };
 
-    class Number : public Element
+    class Number : public Component
     {
     public:
-        using Element::Element;
+        using Component::Component;
 
         void setValue(int value);
     };
 
-    class XFloat : public Element
+    class XFloat : public Component
     {
     public:
-        using Element::Element;
+        using Component::Component;
 
         void setValue(float value, int precision = 0);
     };
 
-    class ProgressBar : public Element
+    class ProgressBar : public Component
     {
     private:
         int _min, _max;
@@ -91,7 +91,7 @@ namespace Nextino
         void setValue(int value);
     };
 
-    class Gauge : public Element
+    class Gauge : public Component
     {
     private:
         int _min, _max, _start, _end;

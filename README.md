@@ -39,16 +39,16 @@ void loop()
     nextion.write("page 0");
 }
 ```
-You can also define individual elements to be accessed more easily.
+You can also define individual components to be accessed more easily.
 
 ```ino
 Nextino::Display nextion(displaySerial);
 
 // Specify the element by its objname
-Nextino::Element elapsedMillis(nextion, "t0");
+Nextino::Component elapsedMillis(nextion, "t0");
 
 // or by its page number and id
-Nextino::Element headingText(nextion, 0, 1);
+Nextino::Component headingText(nextion, 0, 1);
 
 void setup()
 {
@@ -63,7 +63,7 @@ void loop()
 }
 ```
 
-Many element types have their own class with some useful functions.
+Many component types have their own class with some useful functions.
 
 ```ino
 Nextino::Text subheadingText(nextion, "t1");

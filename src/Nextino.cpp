@@ -27,11 +27,11 @@ void Display::write(std::string msg)
     _stream->print("\xff\xff\xff");
 }
 
-Element::Element(Display &display, std::string objname) : _display(display), _name(objname)
+Component::Component(Display &display, std::string objname) : _display(display), _name(objname)
 {
 }
 
-Element::Element(Display &display, uint8_t pageId, uint8_t elementId) : _display(display)
+Component::Component(Display &display, uint8_t pageId, uint8_t elementId) : _display(display)
 {
     std::stringstream name;
     name << "p[" << pageId << "].b[" << elementId << "]";
@@ -39,38 +39,38 @@ Element::Element(Display &display, uint8_t pageId, uint8_t elementId) : _display
     _name = name.str();
 }
 
-void Element::setAttribute(std::string attribute, std::string value, bool quote)
+void Component::setAttribute(std::string attribute, std::string value, bool quote)
 {
     std::string msg = _name + "." + attribute + "=" + (quote ? "\"" + value + "\"" : value);
     _display.write(msg);
 }
 
-void Element::setColor(std::string attribute, uint8_t r, uint8_t g, uint8_t b)
+void Component::setColor(std::string attribute, uint8_t r, uint8_t g, uint8_t b)
 {
     setAttribute(attribute, (uint32_t)rgb888_to_rgb565(r, g, b));
 }
 
-void Nextino::Element::setColor(std::string attribute, uint32_t color)
+void Nextino::Component::setColor(std::string attribute, uint32_t color)
 {
     setAttribute(attribute, (uint32_t)rgb888_to_rgb565(((color >> 16) & 0xFF), ((color >> 8) & 0xFF), (color & 0xFF)));
 }
 
-void Element::setForegroundColor(uint8_t r, uint8_t g, uint8_t b)
+void Component::setForegroundColor(uint8_t r, uint8_t g, uint8_t b)
 {
     setColor("pco", r, g, b);
 }
 
-void Nextino::Element::setForegroundColor(uint32_t color)
+void Nextino::Component::setForegroundColor(uint32_t color)
 {
     setColor("pco", color);
 }
 
-void Element::setBackgroundColor(uint8_t r, uint8_t g, uint8_t b)
+void Component::setBackgroundColor(uint8_t r, uint8_t g, uint8_t b)
 {
     setColor("bco", r, g, b);
 }
 
-void Nextino::Element::setBackgroundColor(uint32_t color)
+void Nextino::Component::setBackgroundColor(uint32_t color)
 {
     setColor("bco", color);
 }
@@ -104,11 +104,11 @@ void XFloat::setValue(float value, int precision)
     setAttribute("vvs1", val.length() - vvs);
 }
 
-ProgressBar::ProgressBar(Display &display, std::string objname, int min, int max) : Element(display, objname), _min(min), _max(max)
+ProgressBar::ProgressBar(Display &display, std::string objname, int min, int max) : Component(display, objname), _min(min), _max(max)
 {
 }
 
-Nextino::ProgressBar::ProgressBar(Display &display, int pageId, int elementId, int min, int max) : Element(display, pageId, elementId), _min(min), _max(max)
+Nextino::ProgressBar::ProgressBar(Display &display, int pageId, int elementId, int min, int max) : Component(display, pageId, elementId), _min(min), _max(max)
 {
 }
 
@@ -119,11 +119,11 @@ void ProgressBar::setValue(int value)
     setValue(map(value, _min, _max, 0, 100));
 }
 
-Nextino::Gauge::Gauge(Display &display, std::string objname, int min, int max, int start, int end) : Element(display, objname), _min(min), _max(max), _start(start), _end(end)
+Nextino::Gauge::Gauge(Display &display, std::string objname, int min, int max, int start, int end) : Component(display, objname), _min(min), _max(max), _start(start), _end(end)
 {
 }
 
-Nextino::Gauge::Gauge(Display &display, int pageId, int elementId, int min, int max, int start, int end) : Element(display, pageId, elementId), _min(min), _max(max), _start(start), _end(end)
+Nextino::Gauge::Gauge(Display &display, int pageId, int elementId, int min, int max, int start, int end) : Component(display, pageId, elementId), _min(min), _max(max), _start(start), _end(end)
 {
 }
 
