@@ -44,11 +44,9 @@ You can also define individual components to be accessed more easily.
 ```ino
 Nextino::Display nextion(displaySerial);
 
-// Specify the element by its objname
-Nextino::Component elapsedMillis(nextion, "t0");
-
-// or by its page number and id
+// Specify the component using its page number and id.
 Nextino::Component headingText(nextion, 0, 1);
+Nextino::Component elapsedMillis(nextion, 0, 3);
 
 void setup()
 {
@@ -66,7 +64,7 @@ void loop()
 Many component types have their own class with some useful functions.
 
 ```ino
-Nextino::Text subheadingText(nextion, "t1");
+Nextino::Text subheadingText(nextion, 0, 2);
 
 void setup() 
 {

@@ -6,9 +6,9 @@ SoftwareSerial displaySerial(5, 6);
 
 Nextino::Display display(displaySerial);
 
-// In our HMI file, we have a Text element with objname "t1", and a Number with objname "n0".
-Nextino::Text heading(display, "t1");
-Nextino::Number timeElapsed(display, "n0");
+// In our HMI file, we have a Text element with id 1, and a Number with id 2.
+Nextino::Text heading(display, 0, 1);
+Nextino::Number timeElapsed(display, 0, 2);
 
 void setup()
 {

@@ -20,29 +20,38 @@ const uint16_t rgb888_to_rgb565(uint8_t r, uint8_t g, uint8_t b)
 void Display::write(std::string msg)
 {
 #ifdef NEXTINO_DEBUG
-    Serial.println(msg.c_str());
+    std::cout << msg << std::endl;
 #endif
 
-    _stream->print(msg.c_str());
-    _stream->print("\xff\xff\xff");
+    _outStream << msg << "\xff\xff\xff";
 }
 
-Component::Component(Display &display, std::string objname) : _display(display), _name(objname)
+std::string Nextino::Display::read()
 {
+    std::string ret;
+    std::getline(_inStream, ret, '\xff');
+
+    return ret;
 }
 
-Component::Component(Display &display, uint8_t pageId, uint8_t elementId) : _display(display)
+Component::Component(Display &display, uint8_t pageId, uint8_t componentId) : _display(display), _pageId(pageId), _componentId(componentId)
 {
-    std::stringstream name;
-    name << "p[" << pageId << "].b[" << elementId << "]";
-
-    _name = name.str();
 }
 
 void Component::setAttribute(std::string attribute, std::string value, bool quote)
 {
-    std::string msg = _name + "." + attribute + "=" + (quote ? "\"" + value + "\"" : value);
-    _display.write(msg);
+    std::stringstream msg;
+    msg << "p[" << _pageId << "].b[" << _componentId << "." << attribute << "=";
+
+    if (quote)
+        msg << '"';
+
+    msg << value;
+
+    if (quote)
+        msg << '"';
+
+    _display.write(msg.str());
 }
 
 void Component::setColor(std::string attribute, uint8_t r, uint8_t g, uint8_t b)
@@ -104,11 +113,7 @@ void XFloat::setValue(float value, int precision)
     setAttribute("vvs1", val.length() - vvs);
 }
 
-ProgressBar::ProgressBar(Display &display, std::string objname, int min, int max) : Component(display, objname), _min(min), _max(max)
-{
-}
-
-Nextino::ProgressBar::ProgressBar(Display &display, int pageId, int elementId, int min, int max) : Component(display, pageId, elementId), _min(min), _max(max)
+Nextino::ProgressBar::ProgressBar(Display &display, uint8_t pageId, uint8_t elementId, int min, int max) : Component(display, pageId, elementId), _min(min), _max(max)
 {
 }
 
@@ -119,11 +124,7 @@ void ProgressBar::setValue(int value)
     setValue(map(value, _min, _max, 0, 100));
 }
 
-Nextino::Gauge::Gauge(Display &display, std::string objname, int min, int max, int start, int end) : Component(display, objname), _min(min), _max(max), _start(start), _end(end)
-{
-}
-
-Nextino::Gauge::Gauge(Display &display, int pageId, int elementId, int min, int max, int start, int end) : Component(display, pageId, elementId), _min(min), _max(max), _start(start), _end(end)
+Nextino::Gauge::Gauge(Display &display, uint8_t pageId, uint8_t elementId, int min, int max, int start, int end) : Component(display, pageId, elementId), _min(min), _max(max), _start(start), _end(end)
 {
 }
 

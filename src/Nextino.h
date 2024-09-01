@@ -11,26 +11,29 @@ namespace Nextino
     class Display
     {
     private:
-        Stream *_stream;
+        std::ihserialstream _inStream;
+        std::ohserialstream _outStream;
 
     public:
         template <typename T>
-        Display(T &stream) : _stream(&stream)
+        Display(T &stream) : _inStream(stream), _outStream(stream)
         {
         }
 
         void write(std::string msg);
+        std::string read();
     };
 
     class Component
     {
     private:
         Display &_display;
-        std::string _name;
+        uint8_t _pageId, _componentId;
 
     public:
-        Component(Display &display, std::string objname);
-        Component(Display &display, uint8_t pageId, uint8_t elementId);
+        // TODO: get cid from the display using the objname
+        // Component(Display &display, uint8_t pageId, std::string objname);
+        Component(Display &display, uint8_t pageId, uint8_t componentId);
 
         void setAttribute(std::string attribute, std::string value, bool quote = true);
 
@@ -85,8 +88,8 @@ namespace Nextino
         int _min, _max;
 
     public:
-        ProgressBar(Display &display, std::string objname, int min = 0, int max = 100);
-        ProgressBar(Display &display, int pageId, int elementId, int min = 0, int max = 100);
+        // ProgressBar(Display &display, uint8_t pageId, std::string objname, int min = 0, int max = 100);
+        ProgressBar(Display &display, uint8_t pageId, uint8_t elementId, int min = 0, int max = 100);
 
         void setValue(int value);
     };
@@ -97,8 +100,8 @@ namespace Nextino
         int _min, _max, _start, _end;
 
     public:
-        Gauge(Display &display, std::string objname, int min, int max, int start = 0, int end = 360);
-        Gauge(Display &display, int pageId, int elementId, int min, int max, int start = 0, int end = 360);
+        // Gauge(Display &display, uint8_t pageId, std::string objname, int min, int max, int start = 0, int end = 360);
+        Gauge(Display &display, uint8_t pageId, uint8_t elementId, int min, int max, int start = 0, int end = 360);
 
         void setValue(int value);
     };
