@@ -4,8 +4,8 @@ An interface for using Nextion HMI displays with Arduino.
 # Installation
 You can install the library using the Arduino IDE. 
 
-1. Download [ArduinoSTL](https://github.com/mike-matera/ArduinoSTL/archive/refs/heads/master.zip)
-1. [Download this library.](https://github.com/jamesbarret715/Nextino/archive/refs/heads/master.zip)
+1. Download [ArduinoSTL](https://github.com/mike-matera/ArduinoSTL/archive/refs/heads/master.zip).
+1. Download [this library](https://github.com/jamesbarret715/Nextino/archive/refs/heads/master.zip).
 1. In the Arduino IDE, navigate to Sketch > Include Library > Add .zip Library...
 1. Do this for both the downloaded ZIP files and you're ready to start using Nextino.
 
