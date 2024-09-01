@@ -30,9 +30,18 @@ namespace Nextino
         Element(Display &display, std::string objname);
         Element(Display &display, uint8_t pageId, uint8_t elementId);
 
-        void setProperty(std::string property, std::string value);
+        void setAttribute(std::string attribute, std::string value, bool quote = true);
+        void setAttribute(std::string attribute, int32_t value);
+        void setAttribute(std::string attribute, uint32_t value);
 
-        void setProperty(std::string property, int value);
+        void setColor(std::string attribute, uint8_t r, uint8_t g, uint8_t b);
+        void setColor(std::string attribute, uint32_t color);
+
+        void setForegroundColor(uint8_t r, uint8_t g, uint8_t b);
+        void setForegroundColor(uint32_t color);
+
+        void setBackgroundColor(uint8_t r, uint8_t g, uint8_t b);
+        void setBackgroundColor(uint32_t color);
     };
 
     class Text : public Element
@@ -47,6 +56,38 @@ namespace Nextino
     {
     public:
         using Element::Element;
+
+        void setValue(int value);
+    };
+
+    class XFloat : public Element
+    {
+    public:
+        using Element::Element;
+
+        void setValue(float value, int precision = 0);
+    };
+
+    class ProgressBar : public Element
+    {
+    private:
+        int _min, _max;
+
+    public:
+        ProgressBar(Display &display, std::string objname, int min = 0, int max = 100);
+        ProgressBar(Display &display, int pageId, int elementId, int min = 0, int max = 100);
+
+        void setValue(int value);
+    };
+
+    class Gauge : public Element
+    {
+    private:
+        int _min, _max, _start, _end;
+
+    public:
+        Gauge(Display &display, std::string objname, int min, int max, int start = 0, int end = 360);
+        Gauge(Display &display, int pageId, int elementId, int min, int max, int start = 0, int end = 360);
 
         void setValue(int value);
     };
